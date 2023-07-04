@@ -1,10 +1,15 @@
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.views import View
-
 from .models import *
 from asosiy.models import Mahsulot
+from userapp.models import Account
 
+
+class TanlanganOchirView(View):
+    def get(self,request,son):
+        Tanlangan.objects.filter(id=son).delete()
+        return redirect('tanlangan')
 
 class ShoppingView(View):
     def get(self,request):
@@ -69,7 +74,7 @@ class OchirishView(View):
 class BuyurtmaView(View):
     def get(self,request):
         content = {
-            'buyurtmalar':Buyurtma.objects.filter(account__user=request.user)
+            'buyurtmalar':Buyurtma.objects.get(account__user=request.user)
         }
         return render(request,'page-profile-orders.html',content)
 
@@ -82,6 +87,14 @@ class BuyurtmaQosh(View):
             manzil = Manzil.objects.get(account__user=request.user,asosiy=True)
         )
         return redirect("/buyurtma/orders/")
+
+class TanlanganView(View):
+    def get(self,request):
+        content = {
+            'tanlanganlar':Tanlangan.objects.all()
+        }
+        return render(request,'page-profile-wishlist.html',content)
+
 
 
 

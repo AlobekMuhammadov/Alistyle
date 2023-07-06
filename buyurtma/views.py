@@ -74,7 +74,7 @@ class OchirishView(View):
 class BuyurtmaView(View):
     def get(self,request):
         content = {
-            'buyurtmalar':Buyurtma.objects.get(account__user=request.user)
+            'buyurtmalar':Buyurtma.objects.filter(account__user=request.user)
         }
         return render(request,'page-profile-orders.html',content)
 
